@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>瑞浪高原 土日招待券</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<style>
+/* layout: one centered ticket card, before/after states swap on tap */
+:root {
+  --bg: #eef3ea; --card: #ffffff; --panel: #f3f6f0; --fg: #1f2a1c; --muted: #5d6a58;
+  --green: #2f6b10; --red: #e24b4a; --on-red: #ffffff; --line: #d6dfd0;
+  --font: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121810; --card: #1b2318; --panel: #232d1f; --fg: #eef3ea; --muted: #a9b5a2;
+  --green: #97c459; --red: #e5524f; --on-red: #ffffff; --line: #34402f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121810; --card: #1b2318; --panel: #232d1f; --fg: #eef3ea; --muted: #a9b5a2;
+  --green: #97c459; --red: #e5524f; --on-red: #ffffff; --line: #34402f; color-scheme: dark }
+[hidden] { display: none !important; }
+html, body { min-height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px; display: flex; justify-content: center; }
+.card { position: relative; overflow: hidden; width: 100%; max-width: 400px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 18px; padding: 28px 20px; text-align: center; }
+.state { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.kicker { font-size: 13px; color: var(--muted); letter-spacing: 0.2em; margin-top: 10px; }
+.t1 { font-size: 22px; font-weight: 700; color: var(--green); margin: 0; }
+.t2 { font-size: 34px; font-weight: 700; color: var(--green); letter-spacing: 0.15em; margin: 0; }
+.sub { font-size: 14px; margin: 0 0 12px; }
+.course { background: var(--panel); border-radius: 12px; padding: 12px 16px; width: 100%; max-width: 300px; margin-bottom: 22px; }
+.course .lbl { font-size: 13px; color: var(--muted); margin: 0 0 2px; }
+.course .name { font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+.course .sub2 { font-size: 16px; font-weight: 700; color: var(--green); margin: 0; }
+.course .roma { font-size: 14px; color: var(--muted); letter-spacing: 0.12em; margin: 6px 0 0; }
+.btn-go { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.2; padding: 14px 56px;
+  border: none; border-radius: 999px; background: var(--red); color: var(--on-red); font-family: inherit; cursor: pointer; }
+.btn-go .big { font-size: 26px; font-weight: 700; }
+.btn-go .small { font-size: 12px; margin-top: 2px; }
+.btn-go:active { transform: scale(0.97); }
+.note { font-size: 11px; color: var(--muted); margin-top: 18px; }
+.hazure { background: var(--red); color: var(--on-red); font-size: 46px; font-weight: 700; letter-spacing: 0.15em;
+  padding: 8px 32px; border-radius: 12px; margin-bottom: 16px; }
+.list { background: var(--panel); border-radius: 12px; padding: 14px 16px; text-align: left; width: 100%; max-width: 300px; margin-bottom: 18px; }
+.list p { font-size: 15px; color: var(--muted); margin: 0 0 6px; }
+.list p:last-child { margin: 0; }
+.x { color: var(--red); font-weight: 700; } .ok { color: var(--green); font-weight: 700; }
+.m1 { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
+.m2 { font-size: 18px; font-weight: 700; color: var(--muted); margin: 0 0 8px; }
+.m3 { font-size: 28px; font-weight: 700; color: var(--red); margin: 0 0 20px; }
+.btn-again { font-family: inherit; font-size: 14px; padding: 10px 22px; border-radius: 999px; border: 1px solid var(--line);
+  background: transparent; color: var(--fg); cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+.atari { background: #e8a317; color: #ffffff; font-size: 46px; font-weight: 700; letter-spacing: 0.15em;
+  padding: 8px 32px; border-radius: 12px; margin-bottom: 16px; }
+.m3.win { color: #d4870a; }
+.btn-more { display: inline-block; background: var(--red); color: var(--on-red); border: 2px solid var(--red);
+  border-radius: 999px; padding: 12px 40px; font-size: 20px; font-weight: 700; text-decoration: none; }
+.btn-more:active { transform: scale(0.97); }
+.btn-more:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+.confetti { position: absolute; top: -20px; pointer-events: none; }
+</style>
+
+<main class="card" id="stage">
+  <section class="state" id="before">
+    <svg width="76" height="76" viewBox="0 0 76 76" role="img" aria-label="ゴルフの紋章">
+      <circle cx="38" cy="38" r="36" fill="#EAF3DE" stroke="#3B6D11" stroke-width="2"/>
+      <circle cx="38" cy="38" r="30" fill="none" stroke="#3B6D11" stroke-width="1" stroke-dasharray="3 3"/>
+      <ellipse cx="38" cy="54" rx="20" ry="6" fill="#97C459"/>
+      <line x1="38" y1="20" x2="38" y2="54" stroke="#27500A" stroke-width="2"/>
+      <path d="M38 20 L54 26 L38 32 Z" fill="#E24B4A"/>
+      <circle cx="28" cy="52" r="2.5" fill="#FFFFFF" stroke="#5F5E5A" stroke-width="0.8"/>
+    </svg>
+    <p class="kicker">特別発行</p>
+    <p class="t1">土曜日・日曜日</p>
+    <p class="t2">招待券</p>
+    <p class="sub">が発行されました</p>
+    <div class="course">
+      <p class="lbl">コース</p>
+      <p class="name">麗澤瑞浪ゴルフ倶楽部</p>
+      <p class="sub2">高原コース／屏風山コース</p>
+    </div>
+    <button class="btn-go" id="go" type="button"><span class="big">抽選！</span><span class="small">タップ</span></button>
+  </section>
+
+  <section class="state" id="after" hidden>
+    <div class="atari">当たり！</div>
+    <div class="list">
+      <p><span class="ok">✓</span> 土曜：ゴルフOK</p>
+      <p><span class="ok">✓</span> 日曜：ゴルフOK</p>
+      <p><span class="ok">✓</span> パチンコはお休みして、一緒に回りましょう</p>
+    </div>
+    <p class="m2">厳正なる審査の結果、見事当選です。</p>
+    <p class="m3 win">おめでとう〜！</p>
+    <a class="btn-more" href="hazure.html">詳細はこちら</a>
+  </section>
+</main>
+
+<script>
+(function(){
+  var before = document.getElementById('before'), after = document.getElementById('after'), stage = document.getElementById('stage');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function confetti(){
+    if (reduce) return;
+    var colors = ['#639922','#378ADD','#EF9F27','#1D9E75','#D4537E','#7F77DD'];
+    for (var i = 0; i < 80; i++) {
+      var p = document.createElement('div'), size = 6 + Math.random() * 8;
+      p.className = 'confetti';
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.width = size + 'px'; p.style.height = size + 'px';
+      p.style.background = colors[i % colors.length];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      stage.appendChild(p);
+      var drift = (Math.random() - 0.5) * 120, rot = Math.random() * 720;
+      (function(p){
+        p.animate([{transform:'translate(0,0) rotate(0deg)', opacity:1},
+                   {transform:'translate(' + drift + 'px,600px) rotate(' + rot + 'deg)', opacity:0}],
+                  {duration: 1400 + Math.random() * 1200, easing: 'cubic-bezier(.3,.6,.4,1)'}).onfinish = function(){ p.remove(); };
+      })(p);
+    }
+  }
+  document.getElementById('go').addEventListener('click', function(){ before.hidden = true; after.hidden = false; confetti(); });
+})();
+</script>
+
+</html>
